@@ -7,21 +7,21 @@
 在5432端口（或任何端口）上创建名为postgrest_tut的Docker Postgres容器。
 
 ```
-sudo docker run--name“postgrest_tut”-p5432:5432-e POSTGRES_MULTIPLE_EXTENSIONS=postgis-d-t kartoza/postgis
+sudo docker run --name "postgrest_tut" -p5432:5432 -e POSTGRES_MULTIPLE_EXTENSIONS=postgis -d -t kartoza/postgis
 ```
 
 必须配置Postgres，以确保它信任连接（本例为参考，不应以这种方式在生产环境中使用）。
 
 ```
-sudo docker exec-it postgrest_tut bash
+sudo docker exec -it postgrest_tut bash
 ```
 
 首先在容器内安装一个编辑器，例如nano，然后导航到Postgres配置所在的文件夹。
 
 ```
-apt get update && apt get install nano
+apt update && apt install nano && apt install vim
 #这也可能是不同的版本，这取决于你的安装
-cd/etc/postgresql/12/main/
+cd /etc/postgresql/12/main/
 ```
 
 在文件pg_hba.conf中，需要对“数据库管理登录通过Unix域套接字（应该在第85行）下的设置从peer更改为trust，然后重新启动Docker容器。
